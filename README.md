@@ -84,10 +84,11 @@ Tested on a slow development VM, running curl on one VM to another VM, here are 
 
 **Benchmark1: serving generated "dummy" data
 *Calling method: {hostname}:8080/rest/complex/10000** (JSON return)*
-Compression |Avg pre-transfer time (s) | Average server processing time (s) | Average Transfer time (s)|   Avg Bytes:  
-------------|--------------------------|------------------------------------|--------------------------|--------------
- none       |      3.60506e-05         |           0.0239487289             |       0.0353947948       |   1766648.424   
- LZF        |      3.57284e-05         |           0.0258132831             |       0.0265397982       |    173025.0755 
+
+Compression | Avg pre-transfer time (s) | Average server processing time (s) | Average Transfer time (s) |   Avg Bytes  
+------------|---------------------------|------------------------------------|---------------------------|--------------
+ none       |      3.60506e-05          |           0.0239487289             |       0.0353947948        |   1766648.424   
+ LZF        |      3.57284e-05          |           0.0258132831             |       0.0265397982        |    173025.0755 
 
 *Total processing Rate (server time + transfer time):*
 
@@ -101,7 +102,8 @@ Overall, 25% reduction in transfer time (actually includes a lot of the encoding
 **Benchmark 2: Serving statically generated version of the above ** 
 *REST URL: {hostname}:8080/rest/static (all processing time should be for serialization/compression)*
 *For GZIP, using: {hostname}:8080/rest/static/gzip*
-Compression |Avg pre-transfer time (s) | Average server processing time (s) | Average Transfer time (s)|   Avg Bytes:  |
+
+Compression |Avg pre-transfer time (s) | Average server processing time (s) | Average Transfer time (s)|   Avg Bytes
 ------------|--------------------------|----------------------------------|------------------------|-------------
  none       |3.52369e-05 | 0.0021536384 | 0.0309138852 | 1842761.0 
  LZF        |3.33792e-05 | 0.0042147066 | 0.0223565097 |  174164.0 
