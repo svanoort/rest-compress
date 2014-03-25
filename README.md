@@ -26,12 +26,13 @@ More info on LZF: [C LZF documentation](http://oldhome.schmorp.de/marc/liblzf.ht
 To integrate in your projects:
 
 1. Build the rest-lzf-util module in Maven and add this dependency to your project:
->><dependency>
->>    <groupId>rest-lzf</groupId>
->>    <artifactId>rest-lzf-util</artifactId>
->>    <version>0.1</version>
->></dependency>
-
+```
+<dependency>
+    <groupId>rest-lzf</groupId>
+    <artifactId>rest-lzf-util</artifactId>
+    <version>0.1</version>
+</dependency>
+```
 
 2. Add import for the library to your JAX-RS server & client classes/interfaces:
 >>import org.restcompress.provider.LZF;
