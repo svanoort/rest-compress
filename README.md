@@ -86,7 +86,7 @@ Tested on a slow development VM, running curl on one VM to another VM, here are 
 *Calling method: {hostname}:8080/rest/complex/10000** (JSON return)*
 
 Compression | Avg pre-transfer time (s) | Average server processing time (s) | Average Transfer time (s) |   Avg Bytes  
-------------|---------------------------|------------------------------------|---------------------------|--------------
+------------|---------------------------|------------------------------------|---------------------------|--------------:
  none       |      3.60506e-05          |           0.0239487289             |       0.0353947948        |   1766648.424   
  LZF        |      3.57284e-05          |           0.0258132831             |       0.0265397982        |    173025.0755 
 
@@ -99,12 +99,12 @@ LZF: Roughly **32.18 MB/s** (when uncompressed, file size should be same)
 Overall, 25% reduction in transfer time (actually includes a lot of the encoding time). Yielding a 10% overall performance boost (given a fast connection, roughly 47 MB/s real speed). **Furthermore, there is a 89.8% reduction in bandwidth used.**   
 
 
-**Benchmark 2: Serving statically generated version of the above ** 
+**Benchmark 2: Serving statically generated version of the above** 
 *REST URL: {hostname}:8080/rest/static (all processing time should be for serialization/compression)*
 *For GZIP, using: {hostname}:8080/rest/static/gzip*
 
 Compression |Avg pre-transfer time (s) | Average server processing time (s) | Average Transfer time (s)|   Avg Bytes
-------------|--------------------------|----------------------------------|------------------------|-------------
+------------|--------------------------|----------------------------------|------------------------|-------------:
  none       |3.52369e-05 | 0.0021536384 | 0.0309138852 | 1842761.0 
  LZF        |3.33792e-05 | 0.0042147066 | 0.0223565097 |  174164.0 
  GZIP       |3.71741e-05 | 0.0150530411 | 0.0393193676 |   90949.0 
