@@ -82,7 +82,8 @@ I've included a trivial REST demo app in the rest-demo-app module, which can be 
 #Benchmarks:
 Tested on a slow development VM, running curl on one VM to another VM, here are stats (reported as averages over 10,000 runs, with 1,000 runs to warm up).
 
-**Benchmark1: serving generated "dummy" data
+**Benchmark1: serving generated "dummy" data**
+
 *Calling method: {hostname}:8080/rest/complex/10000** (JSON return)*
 
 Compression | Avg pre-transfer time (s) | Average server processing time (s) | Average Transfer time (s) |   Avg Bytes  
@@ -92,14 +93,16 @@ Compression | Avg pre-transfer time (s) | Average server processing time (s) | A
 
 *Total processing Rate (server time + transfer time):*
 
-No Compression: **28.39** MB/s
+No Compression: **28.39 MB/s**
 
 LZF: Roughly **32.18 MB/s** (when uncompressed, file size should be same)
 
 Overall, 25% reduction in transfer time (actually includes a lot of the encoding time). Yielding a 10% overall performance boost (given a fast connection, roughly 47 MB/s real speed). **Furthermore, there is a 89.8% reduction in bandwidth used.**   
 
 
+
 **Benchmark 2: Serving statically generated version of the above** 
+
 *REST URL: {hostname}:8080/rest/static (all processing time should be for serialization/compression)*
 *For GZIP, using: {hostname}:8080/rest/static/gzip*
 
@@ -109,8 +112,15 @@ Compression |Avg pre-transfer time (s) | Average server processing time (s) | Av
  LZF        |3.33792e-05 | 0.0042147066 | 0.0223565097 |  174164.0 
  GZIP       |3.71741e-05 | 0.0150530411 | 0.0393193676 |   90949.0 
 
-*Benchmark conditions: all benchmarks run by calling one development VM from another, over a fast network link (100+ MB/s real performance).  There was nothing to generate load on the test machines.*
-*Machine configuration: JBoss EAP 6.1.1 application server, CPU: Intel Xeon E312xx (Sandy Bridge) @ 2.4 GHz, 2 cores, 4096 KB cache, 4 GB RAM*
+*Benchmark conditions:* 
+- All benchmarks run by calling one development VM from another
+- Fast network link in LAN (100+ MB/s real performance)
+- There was nothing to generate load on the test machines.
+
+*Machine configuration:*
+- JBoss EAP 6.1.1 application server
+- CPU: Intel Xeon E312xx (Sandy Bridge) @ 2.4 GHz, 2 cores, 4096 KB cache
+- 4 GB RAM
 
 #Future Plans:
 The following additions are planned at some point, and are listed below in priority order so consumers are aware that they are already planned.  No ETA when they will be completed, however.
