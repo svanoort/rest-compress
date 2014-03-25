@@ -35,17 +35,19 @@ To integrate in your projects:
 ```
 
 2. Add import for the library to your JAX-RS server & client classes/interfaces:
->>import org.restcompress.provider.LZF;
-
+```
+import org.restcompress.provider.LZF;
+```
 
 3. Add the @LZF annotation to your REST methods:
->>@GET
->>    @Path("/object")
->>    @LZF
->>    @Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
->>    /** Returns a sample serialized object */
->>    public KeyValue getObject();
-
+```
+@GET
+    @Path("/object")
+    @LZF
+    @Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+    /** Returns a sample serialized object */
+    public KeyValue getObject();
+```
 
 4. Enjoy!  RestEasy clients will automatically use LZF compression for Request respones and POST/PUT bodies, if both client and server advertise the capability.  If the client does not advertise the ability to accept the LZF encoding, the server will not use it. 
 
