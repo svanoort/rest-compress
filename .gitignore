@@ -1,6 +1,22 @@
 *.class
-
+target
+target/*
+*.swp
+# IDE project files #
+.classpath
+.settings
+.project
+.idea
+.wtpmodules
+.wtpmodules
+*.iml
+*.ipr
+*.iws
+.idea
 # Package Files #
 *.jar
 *.war
 *.ear
+# Testing Files #
+bench_out.txt
+deploy_war.sh
