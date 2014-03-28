@@ -5,12 +5,12 @@
     <parent>
         <artifactId>rest-lzf</artifactId>
         <groupId>rest-lzf</groupId>
-        <version>0.1</version>
+        <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
     <artifactId>rest-lzf-util</artifactId>
-    <version>0.1</version>
+    <version>1.0</version>
 
     <!-- JAX-RS/RestEasy libs for passthrough demoapp.provider.LZF on classes -->
 
