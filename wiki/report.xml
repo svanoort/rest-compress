@@ -1,0 +1,304 @@
+<testSuiteReport name="Test suite for JVM compressors" xmlns="http://www.sun.com/japex/testSuiteReport">
+<description xmlns="http://www.sun.com/japex/testSuite">
+
+    <div xmlns="" xmlns:ns2="http://www.sun.com/japex/testSuite" xmlns:xi="http://www.w3.org/2001/XInclude">
+        <p>
+Micro-benchmark for testing performance of compressors on JVM platform
+</p>
+</div>
+</description>  <chartType>barchart</chartType>
+  <configFile>tests-lzf-rest-roundtrip.xml</configFile>
+  <dateTime>27 Mar 2014/20:34:29 EDT</dateTime>
+  <hostName>svcjava01-sse2.dev2.ext.devlab.redhat.com</hostName>
+  <inputDir>testdata/rest</inputDir>
+  <numberOfCpus>2</numberOfCpus>
+  <numberOfThreads>1</numberOfThreads>
+  <osArchitecture>amd64</osArchitecture>
+  <osName>Linux</osName>
+  <plotDrivers>false</plotDrivers>
+  <plotGroupSize>6</plotGroupSize>
+  <reportsDirectory>reports/lzfs-compress</reportsDirectory>
+  <resultAxis>normal</resultAxis>
+  <resultAxisX>normal</resultAxisX>
+  <resultUnit>TPS</resultUnit>
+  <resultUnitX>Size%</resultUnitX>
+  <resultUnitY>MBps</resultUnitY>
+  <runTime>30</runTime>
+  <runsPerDriver>1</runsPerDriver>
+  <singleClassLoader>false</singleClassLoader>
+  <version>1.2.2</version>
+  <vmInfo>Oracle Corporation 24.45-b08</vmInfo>
+  <warmupTime>7</warmupTime>
+  <warmupsPerDriver>0</warmupsPerDriver>
+  <driver name="LZF/stream">
+<description xmlns="http://www.sun.com/japex/testSuite">
+    <div xmlns="" xmlns:ns2="http://www.sun.com/japex/testSuite" xmlns:xi="http://www.w3.org/2001/XInclude">
+        <p>LZF, streaming</p>
+    </div>
+</description>    <classPath>build/classes
+lib/lzf/*.jar</classPath>
+    <driverClass>com.ning.jcbm.lzf.LzfDriver</driverClass>
+    <resultAritMean>197.93</resultAritMean>
+    <resultAritMeanX>35.011</resultAritMeanX>
+    <resultGeomMean>185.503</resultGeomMean>
+    <resultGeomMeanX>32.64</resultGeomMeanX>
+    <resultHarmMean>174.596</resultHarmMean>
+    <resultHarmMeanX>29.803</resultHarmMeanX>
+    <streaming xmlns="">true</streaming>
+    <testCase name="R:angel-big.json">
+      <resultIterations>37419</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>137.866</resultValue>
+      <resultValueX>31.987</resultValueX>
+    </testCase>
+    <testCase name="R:angel-search.json">
+      <resultIterations>3173268</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>210.124</resultValue>
+      <resultValueX>44.311</resultValueX>
+    </testCase>
+    <testCase name="R:angel-startups.json">
+      <resultIterations>2129908</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>166.765</resultValue>
+      <resultValueX>54.283</resultValueX>
+    </testCase>
+    <testCase name="R:angel-status.json">
+      <resultIterations>434297</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>155.234</resultValue>
+      <resultValueX>41.987</resultValueX>
+    </testCase>
+    <testCase name="R:get_data.sh">
+      <resultIterations>2724010</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>195.356</resultValue>
+      <resultValueX>43.927</resultValueX>
+    </testCase>
+    <testCase name="R:nasa-big.json">
+      <resultIterations>22578</resultIterations>
+      <resultTime>30.001</resultTime>
+      <resultValue>142.781</resultValue>
+      <resultValueX>31.184</resultValueX>
+    </testCase>
+    <testCase name="R:nasa-category.json">
+      <resultIterations>5812429</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>179.784</resultValue>
+      <resultValueX>47.79</resultValueX>
+    </testCase>
+    <testCase name="R:nasa-tag.json">
+      <resultIterations>348242</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>195.192</resultValue>
+      <resultValueX>28.845</resultValueX>
+    </testCase>
+    <testCase name="R:seismo-index.json">
+      <resultIterations>38799</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>272.98</resultValue>
+      <resultValueX>15.89</resultValueX>
+    </testCase>
+    <testCase name="R:seismo-index.xml">
+      <resultIterations>36068</resultIterations>
+      <resultTime>30.001</resultTime>
+      <resultValue>350.143</resultValue>
+      <resultValueX>11.692</resultValueX>
+    </testCase>
+    <testCase name="R:seismo-station.json">
+      <resultIterations>2236325</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>300.573</resultValue>
+      <resultValueX>25.189</resultValueX>
+    </testCase>
+    <testCase name="R:seismo-station.xml">
+      <resultIterations>1504181</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>357.717</resultValue>
+      <resultValueX>20.131</resultValueX>
+    </testCase>
+    <testCase name="R:usajobs-big.json">
+      <resultIterations>7136</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>107.44</resultValue>
+      <resultValueX>44.648</resultValueX>
+    </testCase>
+    <testCase name="R:usajobs-big.xml">
+      <resultIterations>6781</resultIterations>
+      <resultTime>30.002</resultTime>
+      <resultValue>112.288</resultValue>
+      <resultValueX>41.964</resultValueX>
+    </testCase>
+    <testCase name="R:usajobs-small.json">
+      <resultIterations>77260</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>119.195</resultValue>
+      <resultValueX>40.163</resultValueX>
+    </testCase>
+    <testCase name="R:usajobs-small.xml">
+      <resultIterations>73334</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>124.571</resultValue>
+      <resultValueX>37.924</resultValueX>
+    </testCase>
+    <testCase name="R:weather-big.json">
+      <resultIterations>463429</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>211.832</resultValue>
+      <resultValueX>28.681</resultValueX>
+    </testCase>
+    <testCase name="R:weather-big.xml">
+      <resultIterations>400091</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>265.513</resultValue>
+      <resultValueX>20.559</resultValueX>
+    </testCase>
+    <testCase name="R:weather-small.json">
+      <resultIterations>2500573</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>152.862</resultValue>
+      <resultValueX>50.546</resultValueX>
+    </testCase>
+    <testCase name="R:weather-small.xml">
+      <resultIterations>1664571</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>200.391</resultValue>
+      <resultValueX>38.527</resultValueX>
+    </testCase>
+  </driver>
+  <driver name="Gzip/JDK/stream">
+<description xmlns="http://www.sun.com/japex/testSuite">
+    <div xmlns="" xmlns:ns2="http://www.sun.com/japex/testSuite" xmlns:xi="http://www.w3.org/2001/XInclude">
+        <p>JDK Gzip/Deflate, streaming</p>
+    </div>
+</description>    <classPath>build/classes</classPath>
+    <driverClass>com.ning.jcbm.gzip.JDKGzipDriver</driverClass>
+    <resultAritMean>33.969</resultAritMean>
+    <resultAritMeanX>22.241</resultAritMeanX>
+    <resultGeomMean>32.333</resultGeomMean>
+    <resultGeomMeanX>20.347</resultGeomMeanX>
+    <resultHarmMean>30.851</resultHarmMean>
+    <resultHarmMeanX>18.172</resultHarmMeanX>
+    <streaming xmlns="">true</streaming>
+    <testCase name="R:angel-big.json">
+      <resultIterations>7613</resultIterations>
+      <resultTime>30.003</resultTime>
+      <resultValue>28.046</resultValue>
+      <resultValueX>18.548</resultValueX>
+    </testCase>
+    <testCase name="R:angel-search.json">
+      <resultIterations>563487</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>37.312</resultValue>
+      <resultValueX>30.245</resultValueX>
+    </testCase>
+    <testCase name="R:angel-startups.json">
+      <resultIterations>361211</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>28.282</resultValue>
+      <resultValueX>38.693</resultValueX>
+    </testCase>
+    <testCase name="R:angel-status.json">
+      <resultIterations>84133</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>30.072</resultValue>
+      <resultValueX>29.598</resultValueX>
+    </testCase>
+    <testCase name="R:get_data.sh">
+      <resultIterations>458286</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>32.867</resultValue>
+      <resultValueX>32.137</resultValueX>
+    </testCase>
+    <testCase name="R:nasa-big.json">
+      <resultIterations>4013</resultIterations>
+      <resultTime>30.002</resultTime>
+      <resultValue>25.377</resultValue>
+      <resultValueX>18.008</resultValueX>
+    </testCase>
+    <testCase name="R:nasa-category.json">
+      <resultIterations>859032</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>26.571</resultValue>
+      <resultValueX>32.682</resultValueX>
+    </testCase>
+    <testCase name="R:nasa-tag.json">
+      <resultIterations>67227</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>37.681</resultValue>
+      <resultValueX>18.529</resultValueX>
+    </testCase>
+    <testCase name="R:seismo-index.json">
+      <resultIterations>6681</resultIterations>
+      <resultTime>30.002</resultTime>
+      <resultValue>47.003</resultValue>
+      <resultValueX>9.321</resultValueX>
+    </testCase>
+    <testCase name="R:seismo-index.xml">
+      <resultIterations>6104</resultIterations>
+      <resultTime>30.003</resultTime>
+      <resultValue>59.251</resultValue>
+      <resultValueX>6.407</resultValueX>
+    </testCase>
+    <testCase name="R:seismo-station.json">
+      <resultIterations>357922</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>48.106</resultValue>
+      <resultValueX>17.384</resultValueX>
+    </testCase>
+    <testCase name="R:seismo-station.xml">
+      <resultIterations>214043</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>50.903</resultValue>
+      <resultValueX>13.287</resultValueX>
+    </testCase>
+    <testCase name="R:usajobs-big.json">
+      <resultIterations>1285</resultIterations>
+      <resultTime>30.02</resultTime>
+      <resultValue>19.334</resultValue>
+      <resultValueX>21.904</resultValueX>
+    </testCase>
+    <testCase name="R:usajobs-big.xml">
+      <resultIterations>1272</resultIterations>
+      <resultTime>30.014</resultTime>
+      <resultValue>21.055</resultValue>
+      <resultValueX>20.336</resultValueX>
+    </testCase>
+    <testCase name="R:usajobs-small.json">
+      <resultIterations>14205</resultIterations>
+      <resultTime>30.001</resultTime>
+      <resultValue>21.914</resultValue>
+      <resultValueX>24.549</resultValueX>
+    </testCase>
+    <testCase name="R:usajobs-small.xml">
+      <resultIterations>14009</resultIterations>
+      <resultTime>30.002</resultTime>
+      <resultValue>23.796</resultValue>
+      <resultValueX>22.79</resultValueX>
+    </testCase>
+    <testCase name="R:weather-big.json">
+      <resultIterations>79980</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>36.558</resultValue>
+      <resultValueX>17.094</resultValueX>
+    </testCase>
+    <testCase name="R:weather-big.xml">
+      <resultIterations>70426</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>46.737</resultValue>
+      <resultValueX>12.191</resultValueX>
+    </testCase>
+    <testCase name="R:weather-small.json">
+      <resultIterations>432794</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>26.457</resultValue>
+      <resultValueX>34.685</resultValueX>
+    </testCase>
+    <testCase name="R:weather-small.xml">
+      <resultIterations>266246</resultIterations>
+      <resultTime>30</resultTime>
+      <resultValue>32.052</resultValue>
+      <resultValueX>26.433</resultValueX>
+    </testCase>
+  </driver>
+</testSuiteReport>
