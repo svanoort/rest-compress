@@ -11,7 +11,7 @@ This generates an output compatible with the C LZF implementation.  In the futur
 
 
 #LZF?
-LZF is a dictionary-based compression algorithm in the Lempel-Ziv (LZ) family, optimized for speed over compression ratio. The more popular DEFLATE/GZIP algorithm combines LZ with Huffman coding, but is significantly slower. In fact, within a data center or on a local network, GZIP is so slow that you will often reduce application performance slightly by using it, because the compression speed of <100 MB/s is less than the available bandwidth (100+ MB/s).
+LZF is a dictionary-based compression algorithm in the Lempel-Ziv (LZ) family, optimized for speed over compression ratio. The more popular DEFLATE/GZIP algorithm combines LZ with Huffman coding, but is significantly slower. In fact, within a data center or on a local network, GZIP is so slow that you will often reduce application performance slightly by using it, because the compression speed of <35 MB/s is less than the available bandwidth (100+ MB/s).
 
 LZF is generally at least 2x as fast as GZIP, and still acheives significant (if not as high) compression while being fast enough to realize benefits within a data center.  For generic binary data, it is expected to reduce file size about 50%, for JSON data 75% reduction or more is not unreasonable.   Compression speed will actually increase as the data becomes more easily compressible, so it is a perfect match for XML and JSON. 
 
@@ -80,47 +80,57 @@ I've included a trivial REST demo app in the rest-demo-app module, which can be 
 
 
 #Benchmarks:
-Tested on a slow development VM, running curl on one VM to another VM, here are stats (reported as averages over 10,000 runs, with 1,000 runs to warm up).
-
-**Benchmark1: serving generated "dummy" data**
-
-*Calling method: {hostname}:8080/rest/complex/10000** (JSON return)*
-
-Compression | Avg pre-transfer time (s) | Average server processing time (s) | Average Transfer time (s) |   Avg Bytes  
-------------|---------------------------|------------------------------------|---------------------------|--------------:
- none       |      3.60506e-05          |           0.0239487289             |       0.0353947948        |   1766648.424   
- LZF        |      3.57284e-05          |           0.0258132831             |       0.0265397982        |    173025.0755 
-
-*Total processing Rate (server time + transfer time):*
-
-No Compression: **28.39 MB/s**
-
-LZF: Roughly **32.18 MB/s** (when uncompressed, file size should be same)
-
-Overall, 25% reduction in transfer time (actually includes a lot of the encoding time). Yielding a 10% overall performance boost (given a fast connection, roughly 47 MB/s real speed). **Furthermore, there is a 89.8% reduction in bandwidth used.**   
+Here are some benchmarks to whet the appetite.  Methodology and machine specs are at the bottom. 
 
 
+##Network Benchmark 1: Serving Static Content** 
 
-**Benchmark 2: Serving statically generated version of the above** 
-
-*REST URL: {hostname}:8080/rest/static (all processing time should be for serialization/compression)*
+*Demo App REST URL: {hostname}:8080/rest/static (all processing time should be for serialization & compression)*
 *For GZIP, using: {hostname}:8080/rest/static/gzip*
 
-Compression |Avg pre-transfer time (s) | Average server processing time (s) | Average Transfer time (s)|   Avg Bytes
-------------|--------------------------|----------------------------------|------------------------|-------------:
- none       |3.52369e-05 | 0.0021536384 | 0.0309138852 | 1842761.0 
- LZF        |3.33792e-05 | 0.0042147066 | 0.0223565097 |  174164.0 
- GZIP       |3.71741e-05 | 0.0150530411 | 0.0393193676 |   90949.0 
+Compression | Request Time (s) | Avg Data Size (kB) 
+------------|------------------|-------------------------:
+ none       |     0.03310      |     1842761.0 
+ LZF        |     0.02660      |      174164.0 
+ GZIP       |     0.05441      |       90949.0 
 
-*Benchmark conditions:* 
-- All benchmarks run by calling one development VM from another
-- Fast network link in LAN (100+ MB/s real performance)
-- There was nothing to generate load on the test machines.
+As you can see, LZF reduces file size by 90.5% (not as good as GZIP's 95.1%) but is considerably faster.  Where GZIP's CPU-expensive compression reduces performance by 39.2%, **LZF improves overall REST response time by 24.4% (!)** despite being on a very fast network. 
 
-*Machine configuration:*
-- JBoss EAP 6.1.1 application server
-- CPU: Intel Xeon E312xx (Sandy Bridge) @ 2.4 GHz, 2 cores, 4096 KB cache
-- 4 GB RAM
+
+##Network Benchmark 2: Serving Generated "dummy" data**
+
+*Calling demo app method: {hostname}:8080/rest/complex/10000** (JSON return)*
+
+Compression | Request Time (s) | Avg Data Size (kB) 
+------------|------------------|-------------------------:
+ none       |      0.05938     |           1766648.424   
+ LZF        |      0.05239     |            173025.076   
+
+*Request time is measured from sending request until response fully received.* 
+
+Even with nontrivial processing to generate data, this yields an 89.8% reduction in bandwidth, giving a 10% performance boost.  This is despite being on fast LAN connection (10 GBit shared between VMs).
+
+
+#Dedicated LZF vs. GZIP Compression Benchmarks#
+This gives some idea of the compression speed, as a comparison with GZIP, and for estimating when LZF is advantageous.  It will vary with the hardware used, of course.
+*Your mileage will vary.*
+
+Compression | Avg Round-Trip Speed (MB/s) | Compression Ratio
+------------|-----------------------------|-------------------------:
+ LZF        |      174.596                |           29.803%   
+ GZIP       |       30.851                |           18.172%   
+
+**Round-trip speed is the total rate at which data can be compressed and decompressed.  It is reported as the harmonic mean of the speeds for all files in the corpus.**
+**Harmonic mean is used here instead of arithmetic mean, because it better represents throughput, as it does not disproportionately weight the maximum values.**
+
+As you can see, LZF is about 5x faster than GZIP, at the cost of a somewhat reduced compression. For our hardware, we see that:
+- Neither compression generates benefits when the real available bandwidth is >122 MB/s *(fraction_reduction_in_data * bandwidth < speed_of_decompression)*
+- GZIP generates no benefits if the network exceeds 25.2 MB/s (compression & decompression takes longer than it saves)
+- LZF beats GZIP if the bandwidth exceeds 6.597 MB/s
+- In general, the relationship is to use LZF when bandwidth exceeds: Speed_LZF*(1 - ratio_GZIP) / (speed_GZIP * (1 - ratio_LZF) )
+- Note that gigabit ethernet's maximum speed is 128 MB/s on an uncongested link, and real world performance will be quite a bit less
+
+
 
 #Future Plans:
 The following additions are planned at some point, and are listed below in priority order so consumers are aware that they are already planned.  No ETA when they will be completed, however.
@@ -128,3 +138,33 @@ The following additions are planned at some point, and are listed below in prior
 1. Add Arquillian testing to replace manual testing above
 2. Investigate some way to allow GZIP & LZF compression annotations to play nicely together, and add support for multiple encoding options
 3. Add support for JAX-RS 2.0 interceptors (RestEasy 3.x and other JAX-RS libraries)
+
+##Benchmark Methodology
+- *I make no guarantees that the benchmarks are perfect, but I've tried to be as careful and scientific as possible and remove sources of external noise here.*
+- There were no processes running to generate load on the VM or VMs used
+
+###Network Tests:
+- For tests of network performance, this was tested using the python script included under the rest-demo-app resources folder.  
+- This test runs single REST requests by PyCurl from one VM to another VM, doing 1000 runs to warm up, and reporting arithmetic averages over 10,000 runs.
+- VM is on a blade server connected by 10 GBit link to LAN (shared across guest VMs)
+
+###LZF Tests:
+- For benchmarks of LZF performance, the test used a (https://github.com/svanoort/jvm-compressor-benchmark)[jvm-compressor-benchmark] fork
+- To provide a representative sample of general REST response content, I gathered a corpus of JSON & XML data from 4 different public REST APIs 
+- The test data is included, under the /testdata/rest folder, along with the shell script used to fetch it (which lists sources)
+- The benchmark script is: run-lzf-rest-round.sh 
+- Test is using only a single core of the machine
+
+##Benchmark Machine:
+- Development VM, 2 cores, no load, 4 GB of RAM allocated from HOST
+- Host & Guest OS: Red Hat Enterprise Linux 6
+- For network testing, using JBoss EAP 6.1.1
+- Anecdotally, the VMs are quite a bit slower than my dev laptop (equivalent benchmarks are about 30-50% slower)
+- Java: java version "1.7.0_45", OpenJDK Runtime Environment (rhel-2.4.3.3.el6-x86_64 u45-b15)
+- OpenJDK 64-Bit Server VM (build 24.45-b08, mixed mode)
+
+**Host Hardware:** 
+- Host: CPU: 2.40 GHz E5-2665/115W 8C/20MB Cache/DDR3 1600MHz
+- Host: RAM DIMMs: 16GB DDR3-1600-MHz RDIMM/PC3-12800/dual rank/1.35v 
+- Server: UCS B200 M3 Blade Server
+- Cisco UCS VIC 1240
