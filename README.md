@@ -1,23 +1,31 @@
 rest-compress
 =============
 
-Rest Compression Annotations
+Fast RESTful Compression For RestEasy
 
 #Why?
 Have you noticed that you're spending a significant amount of bandwidth and transfer time sending fluffy JSON or XML data from your RESTful Web services?  Wishing there were some way to reduce that, but without the high CPU overhead and increased server processing time from using GZIP? Look no further, here's your solution. :-)
 
-Rest-compress is a library for the popular RestEasy JAX-RS framework.  Currently it adds support for the LZF algorithm, using Tatu Saloranta's excellent [Compress-LZF](https://github.com/ning/compress) library.
-This generates an output compatible with the C LZF implementation.  In the future I hope to add support for additional compression methods (including XML/JSON specific compression formats).
+Rest-compress adds *fast* compression to the popular RestEasy JAX-RS framework, by just adding an annotation to your methods.  It's as easy as GZIP, but fast enough to use within the data center or to the cloud.
+It is based on the LZF algorithm, using Tatu Saloranta's excellent [Compress-LZF](https://github.com/ning/compress) library.
+
+This library is for Java, but it generates an (https://github.com/ning/compress/wiki/LZFFormat)[output format] compatible with the C LZF implementation.  There are LZF libraries (https://github.com/ning/compress/#interoperability)[for all the popular languages].  So, you can run a Java server, but easily add support in your Python or Ruby front-end! 
+
+In the future I hope to add support for additional compression methods (including XML/JSON specific compression formats).
 
 
 #LZF?
-LZF is a dictionary-based compression algorithm in the Lempel-Ziv (LZ) family, optimized for speed over compression ratio. The more popular DEFLATE/GZIP algorithm combines LZ with Huffman coding, but is significantly slower. In fact, within a data center or on a local network, GZIP is so slow that you will often reduce application performance slightly by using it, because the compression speed of <35 MB/s is less than the available bandwidth (100+ MB/s).
+LZF is a speed-optimized compression algorithm in the Lempel-Ziv (LZ) family, optimized for speed over compression ratio. The more popular DEFLATE/GZIP algorithm combines LZ with Huffman coding for better compression, but is significantly slower.  With GZIP, you spend a lot of CPU time to get your compression, and on a LAN connection it will often reduce application performance. 
 
-LZF is generally at least 2x as fast as GZIP, and still acheives significant (if not as high) compression while being fast enough to realize benefits within a data center.  For generic binary data, it is expected to reduce file size about 50%, for JSON data 75% reduction or more is not unreasonable.   Compression speed will actually increase as the data becomes more easily compressible, so it is a perfect match for XML and JSON. 
+**LZF vs. GZIP for JSON/XML** (TPS is MB/s, size % is ratio of compressed to uncompressed data)
+<img src="https://raw.githubusercontent.com/svanoort/rest-compress/wiki/wiki/result.jpg" />
 
-For very 'fluffy' XML/JSON, I have observed:
-* 90% compression
-* Using a *single* core of a Core i7-2620M, 800 MB/s compression, 1500 MB/s decompression, 536 MB/s total round-trip
+###There are other fast compression algorithms out there, so why LZF?
+* It's fast. On my laptop's Core i7-2620M CPU, I've seen compression exceed 800 MB/s for particularly 'fluffy' JSON data, and reduce size by 90%
+* Pure Java.  Portable across all platforms, even on Android phones.  A lot of the other compression libraries use JNI internally
+* Good cross-language libraries for LZF, meaning it's not too hard to write multi-language REST clients
+* Not patent-encumbered (like LZW and LZO)
+* Familiar code; I've worked with LZF before and appreciate its simplicity
 
 More info on LZF: [C LZF documentation](http://oldhome.schmorp.de/marc/liblzf.html)
 
@@ -30,7 +38,7 @@ To integrate in your projects:
 <dependency>
     <groupId>rest-lzf</groupId>
     <artifactId>rest-lzf-util</artifactId>
-    <version>0.1</version>
+    <version>1.0</version>
 </dependency>
 ```
 
@@ -41,7 +49,7 @@ import org.restcompress.provider.LZF;
 
 * Add the @LZF annotation to your REST methods:
 ```
-@GET
+    @GET
     @Path("/object")
     @LZF
     @Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
@@ -49,34 +57,7 @@ import org.restcompress.provider.LZF;
     public KeyValue getObject();
 ```
 
-* Enjoy!  RestEasy clients will automatically use LZF compression for Request respones and POST/PUT bodies, if both client and server advertise the capability.  If the client does not advertise the ability to accept the LZF encoding, the server will not use it. 
-
-
-#How it works:
-**Client-side:**
-Client adds HTTP header "Accept-Encoding: lzf" to all requests and uses LZF encoding for PUT/POST request bodies, setting the 'Content-Encoding: lzf' header. 
-
-**Server-side:**
-If client request has 'Accept-Encoding: lzf' header set, the response will be LZF compressed and the 'Content-Encoding: lzf' header set.  If the client request body has header 'Content-Encoding: lzf' then the request body will be decompressed as LZF before further processing (deserialization, etc). 
-
-**What this means:** 
-You can use a client that is not LZF-aware and LZF simply won't be used.  This means you can easily test & debug REST APIs by the usual tools (curl, browser, etc). 
-
-#Gotchas:
-You may not be able to use both @GZIP and @LZF annotations on the same REST method.  They simply don't play well together, because of how the interceptors for GZip are implemented. For now, pick one method or the other and stick to it. 
-
-#Testing:
-You may notice that there aren't unit tests.  This is because the Interceptors only fire when actively running in a container and this project does not provide functionality separate from this.
-
-To work around this, manual testing was done to verify that:
-* Normal HTTP responses are returned if client doesn't advertise ability to accept LZF encoding 
-* Clients built using a shared client/server REST interface successfully receive and use LZF responses from server
-* Responses are compressed by LZF when sent to server with LZF specified
-* Verified that original message is the same as compressed message after decompression.  (This is covered by the LZF compression library used.)
-* Benchmarking on request/response times.
-
-#Demo:
-I've included a trivial REST demo app in the rest-demo-app module, which can be used as an example.  It is what I used in manual testing, as well.   To deploy, build it and drop the WAR in a JBoss Application Server instance. 
+* Enjoy!  The server will automatically send LZF-compressed REST responses if the client advertises the ability.  Clients will automatically decode use LZF compression for POST/PUT bodies.  If the client does not advertise the ability to accept the LZF encoding, the server will not use it. 
 
 
 #Benchmarks:
@@ -113,7 +94,7 @@ Even with nontrivial processing to generate data, this yields an 89.8% reduction
 
 #Dedicated LZF vs. GZIP Compression Benchmarks#
 This gives some idea of the compression speed, as a comparison with GZIP, and for estimating when LZF is advantageous.  It will vary with the hardware used, of course.
-*Your mileage will vary.*
+*Your mileage will vary.* Full benchmark results are (https://github.com/svanoort/rest-compress/wiki/Benchmark:-REST-Corpus-LZF-GZIP-Round-Trip-Benchmark)[here].
 
 Compression | Avg Round-Trip Speed (MB/s) | Compression Ratio
 ------------|-----------------------------|-------------------------:
@@ -129,6 +110,38 @@ As you can see, LZF is about 5x faster than GZIP, at the cost of a somewhat redu
 - LZF beats GZIP if the bandwidth exceeds 6.597 MB/s
 - In general, the relationship is to use LZF when bandwidth exceeds: Speed_LZF*(1 - ratio_GZIP) / (speed_GZIP * (1 - ratio_LZF) )
 - Note that gigabit ethernet's maximum speed is 128 MB/s on an uncongested link, and real world performance will be quite a bit less
+
+
+#How it works:
+* *Client-side:**
+Client adds HTTP header "Accept-Encoding: lzf" to all REST requests and uses LZF encoding for PUT/POST request bodies, setting the 'Content-Encoding: lzf' header. 
+
+* **Server-side:**
+If client request has 'Accept-Encoding: lzf' header set, the response will be LZF compressed and the 'Content-Encoding: lzf' header set.  If the client request body has header 'Content-Encoding: lzf' then the request body will be decompressed as LZF before further processing (deserialization, etc). 
+
+* **What this means:** 
+You can use a client that is not LZF-aware and LZF simply won't be used.  This means you can easily test & debug REST APIs by the usual tools (curl, browser, etc). 
+Thanks to the magic of HTTP Headers, you can call the RESTful services from non-Java clients without LZF compression, and then later build this into them as you choose.
+
+
+#Gotchas:
+You may not be able to use both @GZIP and @LZF annotations on the same REST method.  They simply don't play well together, because of how the interceptors for GZip are implemented. For now, pick one method or the other and stick to it. 
+
+
+#Demo:
+I've included a trivial REST demo app in the rest-demo-app module, which can be used as an example.  It is what I used in manual testing, as well.   To deploy, build it and drop the WAR in a JBoss Application Server instance. 
+
+
+
+#Testing:
+You may notice that there aren't unit tests.  This is because the Interceptors only fire when actively running in a container and this project does not provide functionality separate from this.
+
+To work around this, manual testing was done (using the demo app) to verify that:
+* Normal HTTP responses are returned if client doesn't advertise ability to accept LZF encoding 
+* Clients built using a shared client/server REST interface successfully receive and use LZF responses from server
+* Responses are compressed by LZF when sent to server with "Accept-Encoding: lzf" header
+* Verified that original message is the same as compressed message after decompression.  (This is covered by the LZF compression library used.)
+* Benchmarking on request/response times.
 
 
 
@@ -155,8 +168,9 @@ The following additions are planned at some point, and are listed below in prior
 - The benchmark script is: run-lzf-rest-round.sh 
 - Test is using only a single core of the machine
 
+
 ##Benchmark Machine:
-- Development VM, 2 cores, no load, 4 GB of RAM allocated from HOST
+- Development VM, 2 cores, no load, 4 GB of RAM allocated from host
 - Host & Guest OS: Red Hat Enterprise Linux 6
 - For network testing, using JBoss EAP 6.1.1
 - Anecdotally, the VMs are quite a bit slower than my dev laptop (equivalent benchmarks are about 30-50% slower)
