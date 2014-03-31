@@ -13,12 +13,7 @@ import java.lang.annotation.Target;
  * Behaves *exactly* the same as the @GZIP annotation:  if request has header "Accept-Encoding: lzf",
  *  they'll get LZF-compressed responses. Similarly, the server can accept LZF encoding POST bodies.
  *
- * Why LZF?
- *   - GZIP gives good compression, but is relatively CPU-expensive
- *   - Within a data center, using GZIP will reduce performance because the CPU time to compress outweighs bandwidth saved
- *   - LZF is a similar LZ77 algorithm that trades some compression for much faster speeds
- *   - LZF has widespread multilanguage support: Java, C, Python, Javascript, Ruby, Perl, and Go
- *   - For list of compatible LZF clients: see https://github.com/ning/compress#interoperability
+ * Warning: for now, do not combine with the GZIP annotation
  *
  */
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.PARAMETER})

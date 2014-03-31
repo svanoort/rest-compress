@@ -1,23 +1,44 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>rest-lzf</artifactId>
-        <groupId>rest-lzf</groupId>
-        <version>1.0</version>
+        <groupId>com.codeablereason.restcompress</groupId>
+        <artifactId>parent</artifactId>
+        <version>0.5</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <groupId>com.codeablereason.restcompress.demo</groupId>
+    <artifactId>demo-app</artifactId>
+    <version>0.5</version>
     <packaging>war</packaging>
-    <artifactId>rest-demo-app</artifactId>
-    <version>1.0</version>
+
+    <name>Rest-Compress Demo App</name>
+    <description>Library providing additional compression options for RestEasy</description>
+    <url>https://github.com/svanoort/rest-compress</url>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:https://github.com/svanoort/rest-compress.git</connection>
+        <url>https://github.com/svanoort/rest-compress</url>
+    </scm>
+    <developers>
+        <developer>
+            <id>svanoort</id>
+            <name>Sam Van Oort</name>
+        </developer>
+    </developers>
+
     <!-- Demo App for REST to test functionality -->
 
     <dependencies>
         <dependency>
-            <groupId>rest-lzf</groupId>
-            <artifactId>rest-lzf-util</artifactId>
-            <version>1.0</version>
+            <groupId>com.codeablereason.restcompress.provider</groupId>
+            <artifactId>rest-compress-lib</artifactId>
+            <version>0.5</version>
         </dependency>
 
         <!-- Minimal JAX-RS dependencies for our JSON REST app -->

@@ -1,7 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <!-- Open Source Hosting Service: eventually will allow deploying artifacts for public use -->
     <!--<parent>
@@ -10,15 +7,37 @@
         <version>7</version>
     </parent>-->
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>rest-lzf</groupId>
-    <artifactId>rest-lzf</artifactId>
-    <version>1.0</version>
+    <groupId>com.codeablereason.restcompress</groupId>
+    <artifactId>parent</artifactId>
+    <version>0.5</version>
     <modules>
-        <module>rest-demo-app</module>
-        <module>rest-lzf-util</module>
+        <module>demo-app</module>
+        <module>rest-compress-lib</module>
     </modules>
     <packaging>pom</packaging>
+
+    <name>Rest-Compress Parent Pom</name>
+    <description>Library providing additional compression options for RestEasy</description>
+    <url>https://github.com/svanoort/rest-compress</url>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:https://github.com/svanoort/rest-compress.git</connection>
+        <url>https://github.com/svanoort/rest-compress</url>
+    </scm>
+    <developers>
+        <developer>
+            <id>svanoort</id>
+            <name>Sam Van Oort</name>
+        </developer>
+    </developers>
+
 
     <repositories>
         <repository>
