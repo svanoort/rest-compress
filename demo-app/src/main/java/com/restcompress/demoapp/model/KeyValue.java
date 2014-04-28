@@ -1,4 +1,4 @@
-package org.restcompress.demoapp.model;
+package com.restcompress.demoapp.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;

@@ -1,9 +1,9 @@
-package org.restcompress.demoapp;
+package com.restcompress.demoapp;
 
 import com.ning.compress.lzf.LZFInputStream;
-import org.restcompress.demoapp.model.FancyRestObject;
-import org.restcompress.demoapp.model.KeyValue;
-import org.restcompress.demoapp.model.RestMapObject;
+import com.restcompress.demoapp.model.FancyRestObject;
+import com.restcompress.demoapp.model.KeyValue;
+import com.restcompress.demoapp.model.RestMapObject;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jboss.resteasy.client.ProxyFactory;

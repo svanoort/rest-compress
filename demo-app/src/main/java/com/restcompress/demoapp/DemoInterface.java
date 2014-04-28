@@ -1,9 +1,9 @@
-package org.restcompress.demoapp;
+package com.restcompress.demoapp;
 
-import org.restcompress.demoapp.model.FancyRestObject;
-import org.restcompress.demoapp.model.KeyValue;
+import com.restcompress.demoapp.model.FancyRestObject;
+import com.restcompress.demoapp.model.KeyValue;
 import org.jboss.resteasy.annotations.GZIP;
-import org.restcompress.provider.LZF;
+import com.restcompress.provider.LZF;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

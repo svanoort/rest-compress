@@ -1,4 +1,4 @@
-package org.restcompress.provider;
+package com.restcompress.provider;
 import com.ning.compress.lzf.LZFOutputStream;
 import org.jboss.resteasy.annotations.interception.ClientInterceptor;
 import org.jboss.resteasy.annotations.interception.EncoderPrecedence;
