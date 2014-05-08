@@ -105,7 +105,7 @@ Compression | Avg Round-Trip Speed (MB/s) | Compression Ratio
 
 As you can see, LZF is about 5x faster than GZIP, at the cost of a somewhat reduced compression. For our hardware, we see that:
 - Neither compression generates benefits when the real available bandwidth is >122 MB/s *(fraction_reduction_in_data * bandwidth < speed_of_decompression)*
-- Full derivation of the equation above (and math for deciding which algorithm to use) is [here](../wiki/Comparing-Speed-of-Different-Compression-Algorithms)
+- Full derivation of the equation above (and math for deciding which algorithm to use) is [here](wiki/Comparing-Speed-of-Different-Compression-Algorithms)
 - GZIP generates no benefits if the network exceeds 25.2 MB/s (compression & decompression takes longer than it saves)
 - In the benchmark below, LZF beats GZIP if the bandwidth exceeds 4.36 MB/s.  On faster CPUs, this increases some (for my ~50% faster dev laptop, it is 6.40 MB/s)
 - In general, LZF beats GZIP on data throughput to host when bandwidth exceeds (ratio_LZF - ratio_GZIP) / ( (1/speed_GZIP) - (1/speed_LZF)) )
