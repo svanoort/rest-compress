@@ -8,7 +8,7 @@ Have you noticed that you're spending a significant amount of bandwidth and tran
 
 Rest-compress extends the popular RestEasy JAX-RS framework, by adding support for *fast* compression.  All you have to do is add an annotation to your methods: it's as easy as GZIP, but fast enough to use within the data center or to the cloud.
 
-The initial version uses the LZF algorithm, based on Tatu Saloranta's excellent [Compress-LZF](https://github.com/ning/compress) library.  For compatibility with other libraries, it generates an [output format](https://github.com/ning/compress/wiki/LZFFormat) compatible with the C LZF implementation.  There are LZF libraries (https://github.com/ning/compress/#interoperability)[for all the popular languages].  So, you can run a Java server, but easily add support in your Python or Ruby front-end!
+The initial version uses the LZF algorithm, based on Tatu Saloranta's excellent [Compress-LZF](https://github.com/ning/compress) library.  For compatibility with other libraries, it generates an [output format](https://github.com/ning/compress/wiki/LZFFormat) compatible with the C LZF implementation.  There are LZF libraries [for all the popular languages](https://github.com/ning/compress/#interoperability).  So, you can run a Java server, but easily add support in your Python or Ruby front-end!
 
 In the future I hope to add support for additional compression methods (including XML/JSON specific compression formats).
 
@@ -105,6 +105,7 @@ Compression | Avg Round-Trip Speed (MB/s) | Compression Ratio
 
 As you can see, LZF is about 5x faster than GZIP, at the cost of a somewhat reduced compression. For our hardware, we see that:
 - Neither compression generates benefits when the real available bandwidth is >122 MB/s *(fraction_reduction_in_data * bandwidth < speed_of_decompression)*
+- Full derivation of the equation above (and math for deciding which algorithm to use) is [here](../wiki/Comparing-Speed-of-Different-Compression-Algorithms)
 - GZIP generates no benefits if the network exceeds 25.2 MB/s (compression & decompression takes longer than it saves)
 - In the benchmark below, LZF beats GZIP if the bandwidth exceeds 4.36 MB/s.  On faster CPUs, this increases some (for my ~50% faster dev laptop, it is 6.40 MB/s)
 - In general, LZF beats GZIP on data throughput to host when bandwidth exceeds (ratio_LZF - ratio_GZIP) / ( (1/speed_GZIP) - (1/speed_LZF)) )
@@ -128,7 +129,7 @@ You may not be able to use both @GZIP and @LZF annotations on the same REST meth
 
 
 #Demo:
-I've included a trivial REST demo app in the rest-demo-app module, which can be used as an example.  It is what I used in manual testing, as well.   To deploy, build it and drop the WAR in a JBoss Application Server instance.
+I've included a trivial REST demo app in the rest-demo-app module, which can be used as an example.  It is what I used in manual testing, as well.   To deploy, build it and drop the WAR in a JBoss Application Server 7 instance (in the deployments folder).
 
 
 
