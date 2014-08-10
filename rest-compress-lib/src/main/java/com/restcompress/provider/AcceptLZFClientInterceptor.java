@@ -17,9 +17,9 @@ import javax.ws.rs.ext.Provider;
 public class AcceptLZFClientInterceptor {
 
     /**
-     * Set headers to advertise ability to accept LZF compression
-     * Check if client response has HTTP header "Accept-Encoding" set:
-     *    - If none, set header to "lzf", if has a header, add lzf to the list
+     * Set headers to advertise ability to accept LZF compression  <p/>
+     * Check if client response has HTTP header "Accept-Encoding" set: <p/>
+     * <ul>   <li>- If none, set header to "lzf", if has a header, add lzf to the list</li></ul>
      * @param ctx Client execution context
      * @return Response with headers appended
      * @throws Exception

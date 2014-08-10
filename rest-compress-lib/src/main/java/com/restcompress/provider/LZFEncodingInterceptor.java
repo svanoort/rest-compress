@@ -15,11 +15,11 @@ import java.io.OutputStream;
 
 /**
  * Encode messages in LZF if content-encoding is set to LZF (client and server)
- * Content Encoding is set by the ContentEncoding annotation in the @LZF annotation
- *
- * Based on the GZIPEncodingInterceptor
+ * <p/>Content Encoding is set by the ContentEncoding annotation in the @LZF annotation
+ * <p/>
+ * <p/>Based on the GZIPEncodingInterceptor
  * <a href="https://github.com/resteasy/Resteasy/blob/Branch_2_3_7/resteasy-jaxrs/src/main/java/org/jboss/resteasy/plugins/interceptors/encoding/GZIPEncodingInterceptor.java">Source</a>
- * Modified for LZF use
+ * <p/>Modified for LZF use
  */
 @Provider
 @ServerInterceptor

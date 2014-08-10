@@ -16,11 +16,11 @@ import java.io.InputStream;
 
 /**
  * Interceptor to decompress HTTP message bodies with LZF, if the content encoding is LZF, before doing deserializtion
- * Works on both Server (decompress POST/PUT request bodies), and Client (response bodies)
- *
- * Based on the GZIPDecodingInterceptor:
+ * <p/>Works on both Server (decompress POST/PUT request bodies), and Client (response bodies)
+ * <p/>
+ * <p/>Based on the GZIPDecodingInterceptor:
  * <a href="https://github.com/resteasy/Resteasy/blob/Branch_2_3_7/resteasy-jaxrs/src/main/java/org/jboss/resteasy/plugins/interceptors/encoding/GZIPDecodingInterceptor.java">Source</a>
- * Modified by Sam Van Oort to accomodate the LZF format
+ * <p/>Modified by Sam Van Oort to accomodate the LZF format
  */
 @Provider
 @ServerInterceptor
@@ -30,7 +30,7 @@ public class LZFDecodingInterceptor implements MessageBodyReaderInterceptor {
 
     /**
      * Check if content encoding is LZF.
-     * If encoding is LZF, wrap the InputStream for that message in LZFInputStream to decode it
+     * <p/>If encoding is LZF, wrap the InputStream for that message in LZFInputStream to decode it
      * @param context Context for HTTP request/response
      * @return context.proceed()
      * @throws IOException

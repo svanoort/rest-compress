@@ -43,11 +43,17 @@
             <version>1.0.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>2.9</version>
+        </dependency>
+
         <!-- Below are needed for Interceptor for LZF
         Versions taken from here:  http://repo1.maven.org/maven2/org/jboss/as/jboss-as-parent/7.2.0.Final/jboss-as-parent-7.2.0.Final.pom
             Version is: version.org.jboss.resteasy
             From EAP6.1.x, RESTEasy is 2.3.5.Final
-            For EAP6.2.x, it's build from JBoss AS 7.3, using RESTEAsy 2.3.7.Final-redhat-2
+            For EAP6.2.x, it's built from JBoss AS 7.3, using RESTEAsy 2.3.7.Final-redhat-2
         -->
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
@@ -57,4 +63,33 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

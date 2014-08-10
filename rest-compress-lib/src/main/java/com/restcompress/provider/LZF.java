@@ -9,10 +9,10 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation to allow LZF compression of REST responses
- *
+ * <p/><p/>
  * Behaves *exactly* the same as the @GZIP annotation:  if request has header "Accept-Encoding: lzf",
  *  they'll get LZF-compressed responses. Similarly, the server can accept LZF encoding POST bodies.
- *
+ * <p/><p/>
  * Warning: for now, do not combine with the GZIP annotation
  *
  */
