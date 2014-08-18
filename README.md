@@ -37,7 +37,7 @@ To integrate in your projects:
 <dependency>
     <groupId>com.codeablereason.restcompress.provider</groupId>
     <artifactId>rest-compress-lib</artifactId>
-    <version>0.5</version>
+    <version>0.6</version>
 </dependency>
 ```
 
