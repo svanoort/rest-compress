@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.codeablereason.restcompress.demo</groupId>
     <artifactId>demo-app</artifactId>
-    <version>0.6</version>
+    <version>0.7</version>
     <packaging>war</packaging>
 
     <name>Rest-Compress Demo App</name>
