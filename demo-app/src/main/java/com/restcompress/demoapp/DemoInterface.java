@@ -28,6 +28,12 @@ public interface DemoInterface {
     public KeyValue getObject();
 
     @GET
+    @Path("/cached/{size}")
+    @Produces({MediaType.APPLICATION_OCTET_STREAM})
+    /** Return a random binary object, caching the results for reuse */
+    public byte[] getCachedBinary(@PathParam("size") int number);
+
+    @GET
     @Path("/complex")
     @LZF
     @Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})

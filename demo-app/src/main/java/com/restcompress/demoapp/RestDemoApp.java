@@ -26,6 +26,7 @@ import java.util.*;
 public class RestDemoApp implements DemoInterface {
 
     static final FancyRestObject fancy = getRandomObject(10000);
+    static final HashMap<Integer,byte[]> cache = new HashMap<Integer,byte[]>();
 
 
     @Override
@@ -41,6 +42,20 @@ public class RestDemoApp implements DemoInterface {
         obj.setKey("MyKey");
         obj.setValue("MyValue");
         return obj;
+    }
+
+    @Override
+    /** Returns a random binary stream that is cached in memory after the first run */
+    public byte[] getCachedBinary(@PathParam("size") int number) {
+        byte[] cached = cache.get(number);
+        if (cached != null) {
+            return cached;
+        } else {
+            byte[] output = new byte[number];
+            new Random().nextBytes(output);
+            cache.put(number, output);
+            return output;
+        }
     }
 
     @Override
